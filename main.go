@@ -30,15 +30,24 @@ func main() {
         fmt.Println(err)
         log.Panic("Database failed to connect")
     }
-    fmt.Println(db)
+    defer db.Close()
 
-    // routes
+    // initializing our db tables
+    core.DeleteTable(db, "cem_score")
+
+    // page routes
     pageRoutes.PageLogin(r)
     pageRoutes.PageTeamCem(r)
     pageRoutes.PageTeamFinance(r)
     pageRoutes.PageTeamSales(r)
     pageRoutes.PageTeamTalent(r)
+    pageRoutes.PageAdminHome(r)
+
+    // action routes
     actionRoutes.ActionLoginUser(r)
+    actionRoutes.UpdateCem(r, db)
+
+    // component routes
     componentRoutes.TalentScoresWidget(r)
     componentRoutes.CutomerServiceScoreWidget(r)
     componentRoutes.SalesResultsWidget(r)

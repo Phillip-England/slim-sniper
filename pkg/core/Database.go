@@ -2,6 +2,7 @@ package core
 
 import (
 	"database/sql"
+	"fmt"
 	"os"
 
 	_ "github.com/lib/pq"
@@ -15,4 +16,44 @@ func GetDatabase() (*sql.DB, error) {
 	db.SetMaxOpenConns(10)
 	db.SetMaxIdleConns(5)
 	return db, nil
+}
+
+func DeleteTable(db *sql.DB, tableName string) error {
+    query := fmt.Sprintf("DROP TABLE IF EXISTS %s", tableName)
+    _, err := db.Exec(query)
+    if err != nil {
+        return err
+    }
+    return nil
+}
+
+func InitCemTable(db *sql.DB) error {
+	tableExistsQuery := `
+		SELECT EXISTS (
+			SELECT 1
+			FROM information_schema.tables
+			WHERE table_name = 'cem_score'
+		);
+	`
+	var tableExists bool
+	err := db.QueryRow(tableExistsQuery).Scan(&tableExists)
+	if err != nil {
+		return err
+	}
+	if !tableExists {
+		createTableQuery := `
+			CREATE TABLE cem_score (
+				id SERIAL PRIMARY KEY,
+				timescale TEXT NOT NULL,
+				metric TEXT NOT NULL,
+				score DOUBLE PRECISION NOT NULL,
+				store TEXT NOT NULL
+			);
+		`
+		_, err := db.Exec(createTableQuery)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
