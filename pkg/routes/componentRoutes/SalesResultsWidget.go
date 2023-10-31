@@ -1,6 +1,7 @@
 package componentRoutes
 
 import (
+	"database/sql"
 	"fmt"
 	"net/http"
 	"web-quickstart/pkg/components/xlist"
@@ -8,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SalesResultsWidget(r *gin.Engine) {
+func SalesResultsWidget(r *gin.Engine, db *sql.DB) {
 	r.GET("/components/SalesResultsWidget", func(c *gin.Context) {
 		totalSales := xlist.ToggleScoreLi("Total Sales", "$209,399", "Sales is simply money coming into the business through the guest transactions. Total sales includes both inside and outside sales.")
 		insideSales := xlist.ToggleScoreLi("Inside Sales", "$134,555", "Inside sales is money which is derived from any transaction which is not catering delivery. If the order is not a catering delivery order, then the money for the order goes to inside sales.")
@@ -16,7 +17,7 @@ func SalesResultsWidget(r *gin.Engine) {
 		widget := fmt.Sprintf(`
 			<div class='bg-white rounded m-2 flex flex-col gap-6 p-6'>
 				<div class='text-xs items-center justify-between gap-2 flex'>
-					<h2 class='font-semibold self-start text-lg'>Sales Results</h2>
+					<h2 class='self-start text-lg'>Sales Results</h2>
 					<div class='flex flex-col'>
 						<div class='flex flex-col gap-2'>
 							<select class='border p-1'>

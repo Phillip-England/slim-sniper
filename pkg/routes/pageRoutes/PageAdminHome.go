@@ -14,7 +14,7 @@ func PageAdminHome(r *gin.Engine) {
 	r.GET("/admin", func(c *gin.Context) {
 		cemFormErr := c.Query("UpdateCemFormErr")
         b := core.NewPageBuilder("CFA Suite | Admin Home")
-		b.Add(xlayout.Banner("CFA Suite", ""))
+		b.Add(xlayout.Banner("CFA Suite", "Having a positive influence", ""))
 		b.Add(xform.UpdateCemForm(cemFormErr))
         c.Data(http.StatusOK, "text/html", b.GetHTMLBytes())
     })

@@ -1,4 +1,4 @@
-package core
+package database
 
 import (
 	"database/sql"
@@ -45,9 +45,13 @@ func InitCemTable(db *sql.DB) error {
 			CREATE TABLE cem_score (
 				id SERIAL PRIMARY KEY,
 				timescale TEXT NOT NULL,
-				metric TEXT NOT NULL,
-				score DOUBLE PRECISION NOT NULL,
-				store TEXT NOT NULL
+				store TEXT NOT NULL,
+				osat DOUBLE PRECISION NOT NULL,
+				taste DOUBLE PRECISION NOT NULL,
+				ace DOUBLE PRECISION NOT NULL,
+				speed DOUBLE PRECISION NOT NULL,
+				cleanliness DOUBLE PRECISION NOT NULL,
+				accuracy DOUBLE PRECISION NOT NULL
 			);
 		`
 		_, err := db.Exec(createTableQuery)
