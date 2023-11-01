@@ -5,6 +5,7 @@ import (
 	"log"
 	"web-quickstart/pkg/database"
 	"web-quickstart/pkg/routes/actionRoutes"
+	"web-quickstart/pkg/routes/apiRoutes"
 	"web-quickstart/pkg/routes/componentRoutes"
 	"web-quickstart/pkg/routes/pageRoutes"
 
@@ -53,6 +54,9 @@ func main() {
     componentRoutes.CutomerServiceScoreWidget(r, db)
     componentRoutes.SalesResultsWidget(r, db)
     componentRoutes.FinancialResultsWidget(r, db)
+
+    // api routes
+    apiRoutes.CemScore(r, db)
 
     // running
     r.Run()
