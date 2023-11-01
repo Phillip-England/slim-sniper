@@ -1,6 +1,7 @@
 package componentRoutes
 
 import (
+	"database/sql"
 	"fmt"
 	"net/http"
 	"web-quickstart/pkg/components/xlist"
@@ -8,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func FinancialResultsWidget(r *gin.Engine) {
+func FinancialResultsWidget(r *gin.Engine, db *sql.DB) {
 	r.GET("/components/FinancialResultsWidget", func(c *gin.Context) {
 		laborCost := xlist.ToggleScoreLi("Labor Cost", "21.3%", "Labor represents all the money we spent to pay for team members to work in our business. Labor is our 2nd biggest expense and is an area of the business which has a lot of potetial to leak revenue.")
 		foodCost := xlist.ToggleScoreLi("Food Cost", "30.1%", "Food cost represents all the money we spent on food to run the business. Food is our biggest expense and food waste is a big potential source of lost revenue.")
@@ -17,7 +18,7 @@ func FinancialResultsWidget(r *gin.Engine) {
 		widget := fmt.Sprintf(`
 			<div class='bg-white rounded m-2 flex flex-col gap-6 p-6'>
 				<div class='text-xs items-center justify-between gap-2 flex'>
-					<h2 class='font-semibold self-start text-lg'>Financial Results</h2>
+					<h2 class='self-start text-lg'>Financial Results</h2>
 					<div class='flex flex-col'>
 						<div class='flex flex-col gap-2'>
 							<select class='border p-1'>
